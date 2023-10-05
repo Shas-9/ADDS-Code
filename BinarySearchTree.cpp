@@ -56,6 +56,8 @@ void insert_node(Node** root, int x, Node* parent) {
   }
 }
 
+// deletion from a tree, implement the 3 cases
+
 int main() {
   Node* root = createNode(1, NULL);
   // insert child to root
