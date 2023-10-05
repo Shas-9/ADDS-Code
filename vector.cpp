@@ -55,6 +55,10 @@ int main() {
   vector<int> data(10);
 
   passVector(v1);
+
+  vector<int> v2 = {0, 1, 2};
+  v2.resize(5); // v2 is now {0, 1, 2, 0, 0}
+  
  
   return 0;
 }
