@@ -58,15 +58,58 @@ void insert_node(Node** root, int x, Node* parent) {
 }
 
 // deletion from a tree, implement the 3 cases
+void delete_node(Node* root, int x) {
+  Node* p = search_tree(root, x);
+  if (p == NULL) {
+    return;
+  }
+
+  // case 1: p has no children
+  if (p->left == NULL && p->right == NULL) {
+    if (p->parent->left == p) {
+      p->parent->left = NULL;
+    } else {
+      p->parent->right = NULL;
+    }
+    delete p;
+  }
+
+  // case 2: p has 2 children
+  else if (p->left != NULL && p->right != NULL) {
+    Node* x = p->right;
+    while (x->left != NULL) {
+      x = x->left;
+    }
+    x->parent->left = NULL;
+    p->data = x->data;
+    delete x;
+  }
+
+  // case 3: p has 1 child
+  else {
+    if (p->left != NULL) {
+      p->data = p->left->data;
+      p->left = NULL;
+      delete p->left;
+    }
+    else {
+      p->data = p->right->data;
+      p->right = NULL;
+      delete p->right;
+    }
+  }
+}
 
 int main() {
   
-  Node* root = createNode(1, NULL);
-  // insert child to root
+  Node* root = createNode(4, NULL);
+  // 2nd level
   root->left = createNode(2, root);
-  root->right = createNode(3, root);
-
-  root->left->left = createNode(4, root->left);
+  root->right = createNode(7, root);
+  // 3rd level
+  root->left->left = createNode(1, root->left);
+  root->left->right = createNode(3, root->left);
+  root->right->left = createNode(5, root->right);
 
   return 0;
 }
