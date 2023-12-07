@@ -1,5 +1,7 @@
 #include<iostream>
 #include<list>
+#include<queue>
+#include<stack>
 using namespace std;
 
 class Graph {
@@ -7,10 +9,12 @@ class Graph {
     int num_vertices;
     // Array of list
     list<int> *adjlist;
+    bool *visited;
 
   Graph(int num_vertices) {
     this->num_vertices = num_vertices;
     this->adjlist = new list<int>[num_vertices];
+    this->visited = new bool[num_vertices];
   }
 
   void addEdge(int src, int dest) {
@@ -30,6 +34,38 @@ class Graph {
 
 };
 
+void bfs(Graph *g, int starting_vertex) {
+  bool visited[g->num_vertices];
+  queue<int> q;
+
+  q.push(starting_vertex); // push first vertex into q
+  visited[starting_vertex] = true; // record first vertex as being visited
+
+  while (!q.empty()) {
+    int visited_vertex = q.front();
+    q.pop(); // remove first item from q
+
+    for (int vertex : g->adjlist[visited_vertex]) {
+      if (!visited[vertex]) {
+        q.push(vertex); // push vertex into q
+        visited[vertex] = true; // mark vertex as visited
+        cout << vertex << " ";
+      }
+    }
+  }
+}
+
+void dfs(Graph *g, int starting_vertex, bool visited[]) {
+  visited[starting_vertex] = true;
+  for (int vertex : g->adjlist[starting_vertex]) {
+    if (!visited[vertex]) {
+      visited[vertex] = true;
+      cout << vertex << " ";
+      dfs(g, vertex, visited);
+    }
+  }
+}
+
 int main() {
   Graph g(5);
   g.addEdge(0, 1);
@@ -40,6 +76,6 @@ int main() {
   g.addEdge(2, 3);
   g.addEdge(3, 4);
 
-  g.printGraph();
+  dfs(&g, 2, g.visited);
   return 0;
 }
