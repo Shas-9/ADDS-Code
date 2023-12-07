@@ -54,9 +54,7 @@ int median_array(int array[], int n) {
   }
 
   sort(array, 0, n-1);
-
   int median_position = floor(n/2) + 1;
-
   int median = array[median_position];
 
   return median;
